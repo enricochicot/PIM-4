@@ -197,7 +197,16 @@ nav {
   background: rgba(255,255,255,0.08);
   transform: translateY(-3px);
 }
-.stat-icon { font-size: 2rem; margin-bottom: 10px; }
+.stat-icon {
+  width: 44px; height: 44px;
+  margin: 0 auto 14px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(232,25,44,0.1);
+  border: 1px solid rgba(232,25,44,0.25);
+  border-radius: 12px;
+  color: var(--green-bright);
+}
+.stat-icon svg { width: 22px; height: 22px; }
 .stat-value {
   font-family: 'Syne', sans-serif;
   font-size: 2rem; font-weight: 800;
@@ -400,7 +409,16 @@ select option { background: var(--green-deep); color: var(--white); }
   text-align: center;
 }
 .impact-item:last-child { border-right: none; }
-.impact-icon { font-size: 2rem; margin-bottom: 10px; }
+.impact-icon {
+  width: 48px; height: 48px;
+  margin: 0 auto 12px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(232,25,44,0.1);
+  border: 1px solid rgba(232,25,44,0.2);
+  border-radius: 14px;
+  color: var(--green-bright);
+}
+.impact-icon svg { width: 24px; height: 24px; }
 .impact-num {
   font-family: 'Syne', sans-serif;
   font-size: 1.8rem; font-weight: 800;
