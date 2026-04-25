@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ReciclaPET — Juntos pelo Planeta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="ambient">
+  <div class="ambient-blob"></div>
+  <div class="ambient-blob"></div>
+  <div class="ambient-blob"></div>
+</div>
+
+<div class="app">
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <div class="logo">
+        <div class="logo-icon">♻️</div>
+        ReciclaPET
+      </div>
+      <div class="nav-points" onclick="openModal('points')">
+        ⭐ Meus Pontos: <span class="pts-val" id="navPoints">0</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">🌿 Iniciativa de Impacto FEMSA</div>
+      <h1>Cada garrafa conta.<br /><em>Todo ponto transforma.</em></h1>
+      <p>Registre suas embalagens PET, acompanhe seu impacto ambiental em tempo real e troque pontos por recompensas exclusivas.</p>
+    </div>
+  </section>
+
+  <!-- STATS GLOBAIS -->
+  <div class="container">
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon">🏙️</div>
+        <div class="stat-value counting" id="globalUsers">0</div>
+        <div class="stat-label">Participantes<br />na comunidade</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🧴</div>
+        <div class="stat-value counting" id="globalBottles">0</div>
+        <div class="stat-label">Embalagens<br />recolhidas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🌊</div>
+        <div class="stat-value counting" id="globalKg">0</div>
+        <div class="stat-label">kg de plástico<br />fora da natureza</div>
+      </div>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="main-grid">
+
+      <!-- REGISTRO -->
+      <div class="card">
+        <div class="card-title">📦 Registrar Coleta</div>
+        <div class="card-subtitle">Informe as embalagens que você separou</div>
+
+        <div class="form-group">
+          <label>Seu nome</label>
+          <input type="text" id="userName" placeholder="Ex: Ana Silva" maxlength="40" />
+        </div>
+
+        <div class="input-row">
+          <div class="form-group">
+            <label>Qtd. Embalagens</label>
+            <input type="number" id="bottleCount" placeholder="0" min="1" max="9999" />
+          </div>
+          <div class="form-group">
+            <label>Tipo</label>
+            <select id="bottleType">
+              <option value="pet_small">PET Pequena (até 600ml)</option>
+              <option value="pet_medium">PET Média (1L)</option>
+              <option value="pet_large" selected>PET Grande (2L)</option>
+              <option value="pet_gallon">Galão (5L+)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Ponto de coleta</label>
+          <select id="collectPoint">
+            <option value="home">�� Coleta em casa</option>
+            <option value="store">🏪 Ponto parceiro</option>
+            <option value="ecostation">♻️ Ecoponto</option>
+            <option value="school">🏫 Escola / Faculdade</option>
+          </select>
+        </div>
+
+        <!-- Preview do impacto -->
+        <div id="previewBox" style="background:rgba(232,25,44,0.07);border:1px solid rgba(232,25,44,0.25);border-radius:var(--radius);padding:14px 16px;margin-bottom:20px;font-size:0.85rem;display:none;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span style="opacity:0.7">Pontos que você vai ganhar:</span>
+            <strong id="prevPts" style="color:var(--green-lime)">0 pts</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;">
+            <span style="opacity:0.7">Plástico evitado:</span>
+            <strong id="prevKg" style="color:var(--green-bright)">0 kg</strong>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="registerCollection()">
+          ✅ Registrar Coleta
+        </button>
+      </div>
+
+      <!-- PAINEL DO USUÁRIO -->
+      <div class="card">
+        <div class="card-title">🏆 Seu Painel</div>
+        <div class="card-subtitle">Progresso e impacto acumulado</div>
+
+        <div class="points-display">
+          <!-- Ring SVG -->
+          <div class="points-ring">
+            <svg viewBox="0 0 120 120" width="140" height="140">
+              <defs>
+                <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#e8192c" />
+                  <stop offset="100%" stop-color="#ff8a93" />
+                </linearGradient>
+              </defs>
+              <circle class="ring-bg" cx="60" cy="60" r="54" />
+              <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="54" />
+            </svg>
+            <div class="ring-center">
+              <div class="ring-pts" id="userPoints">0</div>
+              <div class="ring-label">pontos</div>
+            </div>
+          </div>
+          <div class="level-badge" id="levelBadge">🌱 Plantinha</div>
+          <div style="font-size:0.78rem;opacity:0.5;" id="levelNext">Próximo nível: 100 pts</div>
+        </div>
+
+        <!-- Progress bars -->
+        <div class="progress-wrap">
+          <div class="progress-header">
+            <span class="progress-label">Embalagens recolhidas</span>
+            <span class="progress-val"><span id="userBottles">0</span></span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="pbBottles" style="width:0%"></div>
+          </div>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-header">
+            <span class="progress-label">Kg de plástico evitado</span>
+            <span class="progress-val"><span id="userKg">0</span> kg</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="pbKg" style="width:0%;background:linear-gradient(90deg,var(--teal),var(--green-bright))"></div>
+          </div>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-header">
+            <span class="progress-label">Progresso para próximo nível</span>
+            <span class="progress-val" id="levelPct">0%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="pbLevel" style="width:0%;background:linear-gradient(90deg,var(--amber),var(--green-lime))"></div>
+          </div>
+        </div>
+
+        <button class="btn btn-share" onclick="openShareModal()">
+          🌐 Compartilhar meu Impacto
+        </button>
+      </div>
+
+      <!-- HISTÓRICO -->
+      <div class="card">
+        <div class="card-title">🕒 Histórico de Registros</div>
+        <div class="card-subtitle">Suas últimas coletas</div>
+        <div class="history-list" id="historyList">
+          <div class="empty-state">
+            <div class="empty-icon">📭</div>
+            <div>Nenhum registro ainda.<br/>Faça sua primeira coleta!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- IMPACTO DO USUÁRIO -->
+      <div class="card impact-card">
+        <div class="impact-item">
+          <div class="impact-icon">🌊</div>
+          <div class="impact-num" id="impOcean">0</div>
+          <div class="impact-desc">m² de oceano<br/>protegidos</div>
+        </div>
+        <div class="impact-item">
+          <div class="impact-icon">⚡</div>
+          <div class="impact-num" id="impEnergy">0</div>
+          <div class="impact-desc">kWh de energia<br/>economizada</div>
+        </div>
+        <div class="impact-item">
+          <div class="impact-icon">💧</div>
+          <div class="impact-num" id="impWater">0 L</div>
+          <div class="impact-desc">litros de água<br/>poupados</div>
+        </div>
+        <div class="impact-item">
+          <div class="impact-icon">🌳</div>
+          <div class="impact-num" id="impTrees">0</div>
+          <div class="impact-desc">equivalente em<br/>árvores plantadas</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RECOMPENSAS -->
+    <div class="rewards-section">
+      <div class="section-header">
+        <div class="section-title">🎁 Recompensas</div>
+        <div class="section-tag">Troque seus pontos</div>
+      </div>
+      <div class="rewards-grid" id="rewardsGrid"></div>
+    </div>
+
+  </div><!-- /container -->
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <strong>ReciclaPET</strong> — Plataforma de Impacto Comunitário · Iniciativa FEMSA<br/>
+      <span style="font-size:0.72rem;opacity:0.6;">Dados armazenados localmente no seu dispositivo</span>
+    </div>
+  </footer>
+</div><!-- /app -->
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalBox">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script src="func.js"></script>
+</body>
+</html>
