@@ -21,7 +21,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
   background: var(--green-deep);
   color: var(--white);
   min-height: 100vh;
@@ -30,7 +30,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-h1, h2, h3, h4 { font-family: 'Syne', sans-serif; }
+h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; }
 
 /* ── Noise Texture Overlay ─────────────────────────────── */
 body::before {
@@ -104,7 +104,7 @@ nav {
 }
 .logo {
   display: flex; align-items: center; gap: 10px;
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.25rem; font-weight: 800;
   color: var(--white);
 }
@@ -127,7 +127,7 @@ nav {
 }
 .nav-points:hover { background: rgba(255,255,255,0.13); }
 .nav-points .pts-val {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 800;
   color: var(--green-lime);
   font-size: 1rem;
@@ -212,7 +212,7 @@ nav {
 }
 .stat-icon svg { width: 22px; height: 22px; }
 .stat-value {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 2rem; font-weight: 800;
   color: var(--green-lime);
   line-height: 1;
@@ -244,7 +244,7 @@ nav {
 }
 .card:hover { border-color: rgba(255,255,255,0.16); }
 .card-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.1rem; font-weight: 700;
   margin-bottom: 4px;
   display: flex; align-items: center; gap: 10px;
@@ -275,7 +275,7 @@ select {
   border-radius: var(--radius);
   padding: 13px 16px;
   color: var(--white);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
   outline: none;
   transition: var(--transition);
@@ -298,7 +298,7 @@ select option { background: var(--green-deep); color: var(--white); }
   width: 100%;
   padding: 15px 28px;
   border: none; border-radius: var(--radius);
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 1rem; font-weight: 700;
   cursor: pointer;
   transition: var(--transition);
@@ -331,7 +331,7 @@ select option { background: var(--green-deep); color: var(--white); }
   font-size: 0.85rem;
 }
 .progress-label { color: var(--text-light); opacity: 0.7; font-weight: 400; }
-.progress-val { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--green-lime); }
+.progress-val { font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--green-lime); }
 .progress-track {
   height: 8px;
   background: rgba(255,255,255,0.08);
@@ -383,7 +383,7 @@ select option { background: var(--green-deep); color: var(--white); }
   align-items: center; justify-content: center;
 }
 .ring-pts {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 2rem; font-weight: 800;
   color: var(--green-lime);
   line-height: 1;
@@ -424,7 +424,7 @@ select option { background: var(--green-deep); color: var(--white); }
 }
 .impact-icon svg { width: 24px; height: 24px; }
 .impact-num {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.8rem; font-weight: 800;
   line-height: 1;
   margin-bottom: 4px;
@@ -460,7 +460,7 @@ select option { background: var(--green-deep); color: var(--white); }
 .history-name { font-size: 0.88rem; font-weight: 500; }
 .history-date { font-size: 0.75rem; color: var(--text-light); opacity: 0.5; }
 .history-pts {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.9rem; font-weight: 800;
   color: var(--green-lime);
 }
@@ -480,7 +480,7 @@ select option { background: var(--green-deep); color: var(--white); }
   margin-bottom: 20px;
 }
 .section-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.4rem; font-weight: 800;
 }
 .section-tag {
@@ -523,7 +523,7 @@ select option { background: var(--green-deep); color: var(--white); }
 .reward-card.locked:hover::before { opacity: 0; }
 .reward-emoji { font-size: 2.5rem; margin-bottom: 12px; }
 .reward-name {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.95rem; font-weight: 700;
   margin-bottom: 4px;
 }
@@ -536,7 +536,7 @@ select option { background: var(--green-deep); color: var(--white); }
   border-radius: 50px;
   padding: 4px 12px;
   font-size: 0.82rem; font-weight: 700;
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
 }
 .reward-lock {
   position: absolute;
@@ -620,7 +620,7 @@ select option { background: var(--green-deep); color: var(--white); }
   font-size: 0.88rem;
   border-radius: var(--radius);
   border: none; cursor: pointer;
-  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-family: 'Outfit', sans-serif; font-weight: 700;
   transition: var(--transition);
 }
 .btn-outline {
@@ -769,7 +769,7 @@ footer strong { color: var(--green-lime); opacity: 1; }
   pointer-events: none;
 }
 .share-card-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 1rem; font-weight: 800;
   margin-bottom: 16px;
   color: var(--text-light);
@@ -790,7 +790,7 @@ footer strong { color: var(--green-lime); opacity: 1; }
   padding: 12px 8px;
 }
 .share-stat-val {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.4rem; font-weight: 800;
   color: var(--green-lime);
   line-height: 1;
@@ -809,7 +809,7 @@ footer strong { color: var(--green-lime); opacity: 1; }
   border-radius: 50px;
   padding: 5px 14px;
   font-size: 0.82rem; font-weight: 700;
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
 }
 .share-text-preview {
   background: rgba(255,255,255,0.05);
@@ -834,7 +834,7 @@ footer strong { color: var(--green-lime); opacity: 1; }
   display: flex; align-items: center; justify-content: center; gap: 8px;
   padding: 12px 16px;
   border: none; border-radius: var(--radius);
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.88rem; font-weight: 700;
   cursor: pointer;
   transition: var(--transition);

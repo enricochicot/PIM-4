@@ -363,7 +363,7 @@ function openModal(type, data) {
       <p>Você está prestes a resgatar esta recompensa com seus pontos.</p>
       <div style="text-align:center;padding:20px 0;">
         <div style="font-size:3rem;margin-bottom:8px">${data.emoji}</div>
-        <div style="font-family:Syne;font-weight:700;font-size:1.2rem">${data.name}</div>
+        <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:1.2rem">${data.name}</div>
         <div style="font-size:0.85rem;opacity:0.6;margin-top:4px">${data.desc}</div>
       </div>
       <div class="modal-stat"><span>Seus pontos</span><span>${state.points.toLocaleString('pt-BR')} pts</span></div>
