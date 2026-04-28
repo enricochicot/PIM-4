@@ -6,7 +6,7 @@
 ![Deploy](https://img.shields.io/badge/Deploy-Vercel-black)
 ![Iniciativa](https://img.shields.io/badge/Iniciativa-FEMSA-red)
 
-## 🎓 Contexto do Projeto (PIM-4)
+## Contexto do Projeto (PIM-4)
 
 Este repositório contém o código-fonte do **ReciclaPET**, desenvolvido como parte do **Projeto Integrado Multidisciplinar IV (PIM-4)**. O ReciclaPET é uma aplicação web voltada à **gamificação da reciclagem de embalagens PET**, criada como iniciativa de impacto ambiental vinculada à FEMSA.
 
@@ -22,7 +22,7 @@ A plataforma incentiva usuários a registrarem suas coletas de embalagens plást
 
 ---
 
-## ✨ Funcionalidades da Plataforma
+## Funcionalidades da Plataforma
 
 A aplicação foi projetada para cobrir todo o ciclo de engajamento do usuário com a reciclagem:
 
@@ -38,7 +38,7 @@ A aplicação foi projetada para cobrir todo o ciclo de engajamento do usuário 
 
 ---
 
-## 💻 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 | Categoria | Tecnologia | Detalhe |
 |---|---|---|
@@ -65,7 +65,7 @@ PIM 4/
 
 ---
 
-## 🎮 Mecânicas de Gamificação
+## Mecânicas de Gamificação
 
 ### Sistema de Pontos por Tipo de Embalagem
 
@@ -80,12 +80,12 @@ PIM 4/
 
 | Nível | Nome | Pontos necessários |
 |---|---|---|
-| 1 | 🌱 Plantinha | 0 pts |
-| 2 | 🌿 Eco Amigo | 100 pts |
-| 3 | ♻️ Reciclador | 300 pts |
-| 4 | 🦋 Guardião | 700 pts |
-| 5 | 🌊 Eco Herói | 1.500 pts |
-| 6 | 🌍 Lenda Verde | 3.000 pts |
+| 1 | Plantinha | 0 pts |
+| 2 | Eco Amigo | 100 pts |
+| 3 | Reciclador | 300 pts |
+| 4 | Guardião | 700 pts |
+| 5 | Eco Herói | 1.500 pts |
+| 6 | Lenda Verde | 3.000 pts |
 
 ### Cálculo de Impacto Ambiental
 
@@ -109,7 +109,7 @@ PIM 4/
 
 ---
 
-## 🛠️ Como Executar Localmente
+## Como Executar Localmente
 
 Não há dependências, build ou instalação necessária. O projeto roda diretamente no navegador.
 
@@ -143,12 +143,12 @@ Não há dependências, build ou instalação necessária. O projeto roda direta
 
 ---
 
-## 🤝 Contribuição
+## Contribuição
 
 Contribuições são bem-vindas! Por favor, abra uma *Issue* para discutir a funcionalidade que deseja adicionar ou o bug que encontrou, e em seguida submeta um *Pull Request* na branch `main`.
 
 ---
 
-## 📄 Licença
+## Licença
 
 Este projeto está licenciado sob a [Licença MIT](LICENSE).
