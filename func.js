@@ -26,13 +26,6 @@ const BOTTLE_LABELS = {
   pet_gallon: 'Galão',
 };
 
-const COLLECT_ICONS = {
-  home:       '🏠',
-  store:      '🏪',
-  ecostation: '♻️',
-  school:     '🏫',
-};
-
 // Níveis gamificados
 const LEVELS = [
   { name: '🌱 Plantinha',    min: 0,    max: 100  },
