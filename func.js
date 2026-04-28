@@ -26,6 +26,13 @@ const BOTTLE_LABELS = {
   pet_gallon: 'Galão',
 };
 
+const COLLECT_ICONS = {
+  home:       '🏠',
+  store:      '🏪',
+  ecostation: '♻️',
+  school:     '🏫',
+};
+
 // Níveis gamificados
 const LEVELS = [
   { name: '🌱 Plantinha',    min: 0,    max: 100  },
@@ -85,20 +92,47 @@ function normalizeState(rawState) {
   const base = defaultState();
   const safe = rawState && typeof rawState === 'object' ? rawState : {};
 
-  const toNum = (v, fallback = 0) => {
-    const n = Number(v);
+  const toFloat = (v, fallback = 0) => {
+    if (typeof v === 'number' && Number.isFinite(v)) return v;
+    if (typeof v !== 'string') return fallback;
+
+    const s = v.trim();
+    if (!s) return fallback;
+
+    // Handles pt-BR thousands/decimal formats like 1.234,56
+    if (/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(s)) {
+      const n = Number(s.replace(/\./g, '').replace(',', '.'));
+      return Number.isFinite(n) ? n : fallback;
+    }
+
+    // Handles en-US thousands/decimal formats like 1,234.56
+    if (/^\d{1,3}(,\d{3})+(\.\d+)?$/.test(s)) {
+      const n = Number(s.replace(/,/g, ''));
+      return Number.isFinite(n) ? n : fallback;
+    }
+
+    const n = Number(s.replace(',', '.'));
+    return Number.isFinite(n) ? n : fallback;
+  };
+
+  const toInt = (v, fallback = 0) => {
+    if (typeof v === 'number' && Number.isFinite(v)) return Math.round(v);
+    if (typeof v !== 'string') return fallback;
+    const digits = v.replace(/\D/g, '');
+    if (!digits) return fallback;
+    const n = Number(digits);
     return Number.isFinite(n) ? n : fallback;
   };
 
   return {
     ...base,
     ...safe,
-    points: toNum(safe.points, base.points),
-    bottles: toNum(safe.bottles, base.bottles),
-    kgSaved: toNum(safe.kgSaved, base.kgSaved),
-    globalUsers: Math.max(0, Math.round(toNum(safe.globalUsers, base.globalUsers))),
-    globalBottles: Math.max(0, Math.round(toNum(safe.globalBottles, base.globalBottles))),
-    globalKg: toNum(safe.globalKg, base.globalKg),
+    points: Math.max(0, toInt(safe.points, base.points)),
+    bottles: Math.max(0, toInt(safe.bottles, base.bottles)),
+    kgSaved: Math.max(0, toFloat(safe.kgSaved, base.kgSaved)),
+    globalUsers: Math.max(0, toInt(safe.globalUsers, base.globalUsers)),
+    globalBottles: Math.max(0, toInt(safe.globalBottles, base.globalBottles)),
+    globalKg: Math.max(0, toFloat(safe.globalKg, base.globalKg)),
     history: Array.isArray(safe.history) ? safe.history : [],
     coupons: Array.isArray(safe.coupons) ? safe.coupons : [],
   };
@@ -106,9 +140,13 @@ function normalizeState(rawState) {
 
 let state = normalizeState(loadState());
 
+// Persist normalized state to migrate older localStorage payloads
+saveState(state);
+
 // Calculate derived globalKg from globalBottles if missing
 if (!state.globalKg) {
   state.globalKg = Math.round(state.globalBottles * 0.04);
+  saveState(state);
 }
 
 function generateCouponCode(rewardId) {
@@ -142,11 +180,11 @@ function registerCollection() {
 
   // --- Update state ---
   const prevLevel = getLevel(state.points);
-  state.points   += pts;
-  state.bottles  += count;
-  state.kgSaved  += kg;
-  state.globalBottles += count;
-  state.globalKg      += kg;
+  state.points = (Number(state.points) || 0) + pts;
+  state.bottles = (Number(state.bottles) || 0) + count;
+  state.kgSaved = (Number(state.kgSaved) || 0) + kg;
+  state.globalBottles = (Number(state.globalBottles) || 0) + count;
+  state.globalKg = (Number(state.globalKg) || 0) + kg;
 
   const entry = {
     id:    Date.now(),
