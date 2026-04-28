@@ -73,6 +73,7 @@ function defaultState() {
     bottles:  0,
     kgSaved:  0,
     history:  [],
+    coupons:  [],
     // Simulate community with random seed
     globalUsers:   Math.floor(Math.random() * 800) + 1200,
     globalBottles: Math.floor(Math.random() * 50000) + 80000,
@@ -80,11 +81,40 @@ function defaultState() {
   };
 }
 
-let state = loadState();
+function normalizeState(rawState) {
+  const base = defaultState();
+  const safe = rawState && typeof rawState === 'object' ? rawState : {};
+
+  const toNum = (v, fallback = 0) => {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : fallback;
+  };
+
+  return {
+    ...base,
+    ...safe,
+    points: toNum(safe.points, base.points),
+    bottles: toNum(safe.bottles, base.bottles),
+    kgSaved: toNum(safe.kgSaved, base.kgSaved),
+    globalUsers: Math.max(0, Math.round(toNum(safe.globalUsers, base.globalUsers))),
+    globalBottles: Math.max(0, Math.round(toNum(safe.globalBottles, base.globalBottles))),
+    globalKg: toNum(safe.globalKg, base.globalKg),
+    history: Array.isArray(safe.history) ? safe.history : [],
+    coupons: Array.isArray(safe.coupons) ? safe.coupons : [],
+  };
+}
+
+let state = normalizeState(loadState());
 
 // Calculate derived globalKg from globalBottles if missing
 if (!state.globalKg) {
   state.globalKg = Math.round(state.globalBottles * 0.04);
+}
+
+function generateCouponCode(rewardId) {
+  const seed = Date.now().toString(36).toUpperCase();
+  const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+  return `RCP-${rewardId.toUpperCase()}-${seed.slice(-4)}${rand}`;
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -166,12 +196,33 @@ function redeemReward(rewardId) {
 function confirmRedeem(rewardId) {
   const reward = REWARDS.find(r => r.id === rewardId);
   if (!reward || state.points < reward.cost) return;
+
   state.points -= reward.cost;
+  const coupon = {
+    id: `cp-${Date.now()}`,
+    rewardId: reward.id,
+    rewardName: reward.name,
+    code: generateCouponCode(reward.id),
+    cost: reward.cost,
+    createdAt: new Date().toLocaleString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }),
+    status: 'ativo',
+  };
+
+  state.coupons.unshift(coupon);
   saveState(state);
   updateUI();
   updateRewards();
   closeModal();
-  showToast('🎁', 'Resgate solicitado!', `${reward.name} será enviado em até 5 dias úteis.`, 'success');
+  showToast('🎟️', 'Cupom gerado!', `${reward.name} · Código: ${coupon.code}`, 'success');
+  setTimeout(() => {
+    openModal('coupon', coupon);
+  }, 250);
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -369,6 +420,16 @@ function openModal(type, data) {
     `;
   } else if (type === 'points') {
     const level = getLevel(state.points);
+    const latestCoupons = state.coupons.slice(0, 3);
+    const couponsHtml = latestCoupons.length
+      ? latestCoupons.map(c => `
+        <div class="modal-stat">
+          <span>${c.rewardName}</span>
+          <span style="font-family:monospace">${c.code}</span>
+        </div>
+      `).join('')
+      : '<p style="font-size:0.82rem;opacity:0.65;margin-top:10px">Nenhum cupom resgatado ainda.</p>';
+
     content.innerHTML = `
       <h3>Seus Pontos</h3>
       <p>Resumo completo da sua conta ReciclaPET</p>
@@ -377,8 +438,26 @@ function openModal(type, data) {
       <div class="modal-stat"><span>Plástico evitado</span><span>${parseFloat(state.kgSaved.toFixed(2))} kg</span></div>
       <div class="modal-stat"><span>Nível atual</span><span>${level.name}</span></div>
       <div class="modal-stat"><span>Registros realizados</span><span>${state.history.length}</span></div>
+      <div class="modal-stat"><span>Cupons gerados</span><span>${state.coupons.length}</span></div>
+      <h4 style="margin-top:16px;margin-bottom:10px;font-size:0.95rem">Últimos cupons</h4>
+      ${couponsHtml}
       <div class="modal-actions">
         <button class="btn btn-sm btn-outline" onclick="confirmReset()">🗑️ Resetar dados</button>
+        <button class="btn btn-sm btn-primary" onclick="closeModal()">Fechar</button>
+      </div>
+    `;
+  } else if (type === 'coupon' && data) {
+    content.innerHTML = `
+      <h3>Cupom Gerado</h3>
+      <p>Use este código no resgate da recompensa.</p>
+      <div style="text-align:center;padding:14px 0 8px;">
+        <div style="font-size:2.2rem;margin-bottom:10px">🎟️</div>
+        <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:1.05rem;margin-bottom:6px">${data.rewardName}</div>
+        <div style="font-family:monospace;font-size:1.1rem;letter-spacing:0.06em;background:rgba(255,255,255,0.06);border:1px dashed rgba(255,255,255,0.25);border-radius:10px;padding:10px 12px;display:inline-block;">${data.code}</div>
+        <div style="font-size:0.78rem;opacity:0.65;margin-top:10px">Gerado em ${data.createdAt}</div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-sm btn-outline" onclick="copyCouponCode('${data.code}')">Copiar código</button>
         <button class="btn btn-sm btn-primary" onclick="closeModal()">Fechar</button>
       </div>
     `;
@@ -395,7 +474,7 @@ function closeModal(event) {
 function confirmReset() {
   if (confirm('Tem certeza? Todos os seus dados locais serão apagados.')) {
     localStorage.removeItem(STORAGE_KEY);
-    state = defaultState();
+    state = normalizeState(defaultState());
     state.globalKg = Math.round(state.globalBottles * 0.04);
     saveState(state);
     updateUI();
@@ -403,6 +482,15 @@ function confirmReset() {
     updateRewards();
     closeModal();
     showToast('🔄', 'Dados resetados', 'Tudo foi apagado. Começando do zero!', 'warn');
+  }
+}
+
+async function copyCouponCode(code) {
+  try {
+    await navigator.clipboard.writeText(code);
+    showToast('📋', 'Código copiado!', `Cupom ${code} pronto para uso.`, 'success');
+  } catch {
+    showToast('⚠️', 'Erro ao copiar', 'Copie o código manualmente.', 'warn');
   }
 }
 
