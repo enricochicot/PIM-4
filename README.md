@@ -8,9 +8,9 @@
 
 ## Contexto do Projeto (PIM-4)
 
-Este repositório contém o código-fonte do **ReciclaPET**, desenvolvido como parte do **Projeto Integrado Multidisciplinar IV (PIM-4)**. O ReciclaPET é uma aplicação web voltada à **gamificação da reciclagem de embalagens PET**, criada como iniciativa de impacto ambiental vinculada à FEMSA.
+Desenvolvido como parte do **Projeto Integrado Multidisciplinar IV (PIM-4)**. O ReciclaPET é uma aplicação web voltada à **gamificação da reciclagem de embalagens PET**, criada como iniciativa de impacto ambiental vinculada à FEMSA.
 
-A plataforma incentiva usuários a registrarem suas coletas de embalagens plásticas, transformando o ato de reciclar em uma experiência interativa com pontos, níveis e recompensas reais.
+A plataforma incentiva os usuários a registrarem suas coletas de embalagens plásticas, transformando o ato de reciclar em uma experiência interativa com pontos, níveis e recompensas reais.
 
 ### Público-Alvo
 
